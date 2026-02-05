@@ -1,4 +1,4 @@
-import {Avatar, Box, Stack} from "@mui/material";
+import {Avatar, Box, Stack, Typography} from "@mui/material";
 
 
 const MeMessage = (props: Record<any, any>) => {
@@ -8,9 +8,9 @@ const MeMessage = (props: Record<any, any>) => {
       direction={'row'}
       spacing={0.5}
       sx={{
-        justifyContent: 'flex-start'
-      }}>
-      <Avatar/>
+        justifyContent: 'flex-end'
+      }}
+    >
       <Box
         sx={{
           bgcolor: 'primary.main',
@@ -26,6 +26,7 @@ const MeMessage = (props: Record<any, any>) => {
       >
         {message.text}
       </Box>
+      <Avatar/>
     </Stack>
   )
 }

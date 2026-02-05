@@ -8,7 +8,7 @@ import {createPeer} from '@/app/lib/webrtc'
 import {FlutterDash} from '@mui/icons-material'
 import MeMessage from "@/app/components/MeMessage";
 import PeerMessage from "@/app/components/PeerMessage";
-import {getUserId} from "@/app/utils";
+import {formatDate, formatTime, getUserId} from "@/app/utils";
 
 type ChatMessage = {
   id: string,
@@ -23,22 +23,7 @@ const Chat = () => {
   const [email, setEmail] = useState('')
   const [connected, setConnected] = useState(false)
   const [waiting, setWaiting] = useState(false)
-  const [messages, setMessages] = useState<ChatMessage[]>([
-    {
-      id: crypto.randomUUID(),
-      from: '329533929@qq.com',
-      room: '520',
-      text: 'Aaaaa',
-      ts: 11111111,
-    },
-    {
-      id: crypto.randomUUID(),
-      from: '329533928@qq.com',
-      room: '520',
-      text: 'Aaaaa',
-      ts: 22222222222,
-    }
-  ])
+  const [messages, setMessages] = useState<ChatMessage[]>([])
   const [input, setInput] = useState('')
 
   const peerRef = useRef<ReturnType<typeof createPeer> | null>(null)
@@ -158,15 +143,32 @@ const Chat = () => {
                   }}
               >
                   <Stack spacing={1}>
-                    {messages.map((m, i) => (
-                      <Box key={i}>
-                        {
-                          m.from === email
-                            ? <MeMessage message={m}/>
-                            : <PeerMessage message={m}/>
-                        }
-                      </Box>
-                    ))}
+                    {messages.map((m, i) => {
+                      const prev = messages[i - 1]
+                      const showTime =
+                        !prev || m.ts - prev.ts > 5 * 60 * 1000
+                      return (
+                        <Box key={i}>
+                          {showTime && (
+                            <Box
+                              sx={{
+                                textAlign: 'center',
+                                color: 'text.secondary',
+                                fontSize: 12,
+                                my: 1,
+                              }}
+                            >
+                              {formatDate(m.ts)} {formatTime(m.ts)}
+                            </Box>
+                          )}
+                          {
+                            m.from === email
+                              ? <MeMessage message={m}/>
+                              : <PeerMessage message={m}/>
+                          }
+                        </Box>
+                      )
+                    })}
                   </Stack>
                   <div ref={bottomRef}/>
               </Paper>

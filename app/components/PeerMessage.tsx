@@ -1,4 +1,4 @@
-import {Avatar, Box, Stack} from "@mui/material";
+import {Avatar, Box, Chip, Stack, Typography} from "@mui/material";
 import {FlutterDash} from "@mui/icons-material";
 
 
@@ -9,8 +9,9 @@ const PeerMessage = (props: Record<string, any>) => {
       direction={'row'}
       spacing={0.5}
       sx={{
-        justifyContent: 'flex-end'
+        justifyContent: 'flex-start'
       }}>
+      <Avatar><FlutterDash/></Avatar>
       <Box
         sx={{
           bgcolor: 'grey.300',
@@ -26,7 +27,6 @@ const PeerMessage = (props: Record<string, any>) => {
       >
         {message.text}
       </Box>
-      <Avatar><FlutterDash/></Avatar>
     </Stack>
   )
 }
